@@ -1,24 +1,23 @@
 const express = require("express");
-const { createServer } = require("http");
-const { Server } = require("socket.io");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const connectDB = require("./config/dbConnection");
+const userRoutes = require('./routes/userRoutes');
 
 
-require('dotenv').config();
+require("dotenv").config();
 const app = express();
-const httpServer = createServer(app);
-const io = new Server(httpServer );
-
-
-io.on("connection", (socket) => {
-    console.log(socket.id);
-  });
+app.use(cors());
+app.use(bodyParser.json());
+connectDB();
 
 
 
+const PORT = process.env.PORT;
+
+app.use("api/users", userRoutes);
 
 
-httpServer.listen(process.env.PORT, () =>{
-    console.log(`Server running on port ${process.env.PORT}`);
-    
-} )
-
+app.listen(PORT, ()=>{
+    console.log(`Server is running on port ${PORT}`);
+})
