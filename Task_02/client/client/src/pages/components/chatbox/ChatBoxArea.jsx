@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Chip,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
@@ -11,6 +12,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import ReplyIcon from "@mui/icons-material/Reply";
 
 function ChatBoxArea() {
   return (
@@ -51,6 +54,19 @@ function ChatBoxArea() {
                   </Typography>
                 }
               />
+              <Box
+                sx={{ mt: 1, display: "flex", justifyContent: "space-between" , alignItems:"center"}}
+              >
+                <Typography variant="body2">12:17 A.M</Typography>
+                <Box>
+                  <IconButton size="small">
+                    <ReplyIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton size="small" color="error">
+                    <DeleteOutlineIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+              </Box>
             </Paper>
           </Box>
         </ListItem>
@@ -67,8 +83,7 @@ function ChatBoxArea() {
               sx={{
                 width: "100%",
                 p: 1.5,
-                bgcolor: "primary.light",
-                color: "primary.contrastText",
+                bgcolor: "#ccc"
               }}
             >
               <ListItemText
@@ -81,9 +96,19 @@ function ChatBoxArea() {
                   </Typography>
                 }
               />
-              <Box sx={{ mt: 1 }}>
-                <Typography variant="caption">12:17 A.M</Typography>
-                
+
+              <Box
+                sx={{ mt: 1, display: "flex", justifyContent: "space-between", alignItems:"center" }}
+              >
+                <Typography variant="body2">12:17 A.M</Typography>
+                <Box>
+                  <IconButton size="small">
+                    <ReplyIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton size="small" color="error">
+                    <DeleteOutlineIcon fontSize="small" />
+                  </IconButton>
+                </Box>
               </Box>
             </Paper>
           </Box>
