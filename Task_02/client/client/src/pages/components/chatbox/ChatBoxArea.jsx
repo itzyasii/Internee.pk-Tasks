@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { format } from 'date-fns';
 import {
   Avatar,
   Box,
@@ -15,8 +16,8 @@ import {
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ReplyIcon from "@mui/icons-material/Reply";
 
-
 function ChatBoxArea({ allMsgs, user, handleDelete }) {
+  const firstMessageDate = allMsgs?.length > 0 ? new Date(allMsgs[0].createdAt) : null;
 
   return (
     <Box sx={{ flex: "1 0 0", overflowY: "auto", background: "#f9f9f9" }}>
@@ -31,7 +32,7 @@ function ChatBoxArea({ allMsgs, user, handleDelete }) {
           background: "#f9f9f9",
         }}
       >
-        <Chip label="Today" />
+        <Chip label={firstMessageDate ? format(firstMessageDate, 'PPP') : 'No Messages'} />
       </Stack>
       <List sx={{ p: 0, overflowY: "auto", flex: "1 0 0" }}>
         {allMsgs.map((item) => (
@@ -90,10 +91,7 @@ function ChatBoxArea({ allMsgs, user, handleDelete }) {
                     sx={{ m: 0 }}
                     primary={item?.sender?.name}
                     secondary={
-                      <Typography
-                        variant="caption"
-                        sx={{ color: "text.primary", display: "inline" }}
-                      >
+                      <Typography variant="caption" sx={{ display: "inline" }}>
                         {item?.message}
                       </Typography>
                     }
@@ -106,7 +104,9 @@ function ChatBoxArea({ allMsgs, user, handleDelete }) {
                       alignItems: "center",
                     }}
                   >
-                    <Typography variant="body2">12:40 PM</Typography>
+                    <Typography variant="caption" fontWeight={"50"}>
+                    {format(new Date(item.createdAt), 'PPPp')}
+                    </Typography>
                     <Box>
                       <IconButton size="small">
                         <ReplyIcon fontSize="small" />
@@ -114,7 +114,9 @@ function ChatBoxArea({ allMsgs, user, handleDelete }) {
                       <IconButton
                         size="small"
                         color="error"
-                        onClick={() =>{ handleDelete(item?._id)}}
+                        onClick={() => {
+                          handleDelete(item?._id);
+                        }}
                       >
                         <DeleteOutlineIcon fontSize="small" />
                       </IconButton>
