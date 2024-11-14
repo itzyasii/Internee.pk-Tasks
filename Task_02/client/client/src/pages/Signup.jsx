@@ -1,34 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 import {
+  Alert,
   Box,
   Button,
   Container,
-  Grid,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
+  const navigate = useNavigate();
+  const [formError, setFormError] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    axios
+      .post("/api/users/register", data)
+      .then((res) => {
+        if (res.status === 201) navigate("/login");
+      })
+      .catch((err) => {
+        // console.log(err.response.data.error);
+        setFormError(err.response.data);
+      });
+  };
+  const token = sessionStorage.getItem("token");
+  useEffect(() => {
+    document.title = "Sign up - Hello Messenger";
+    if (token) navigate("/home");
+  });
   return (
     <Container
       maxWidth="md"
       sx={{ display: "flex", alignItems: "center", height: "100vh" }}
     >
-      <Grid container>
-        <Grid item md={6}>
+      <Box container="true" sx={{ display: "flex", width: "100%" }}>
+        <Box item="true" md={6}>
           <Paper
-            sqaure
+            sqaure="true"
             sx={{
-              bgcolor: "primary.main",
-              color: "primary.contrastText",
-              p: 2,
+              width: "100%",
+              background:
+                "linear-gradient(135deg, #FF5E5E, #FF88BB, #FFE29A, #A78BFA)",
+              p: 1,
               height: "100%",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              fontFamily: "Roboto, sans-serif",
+              fontWeight: 600,
+              color: "#FFFFFF",
+              fontSize: "1.5rem",
+              textShadow: "1px 1px 4px rgba(0, 0, 0, 0.4)",
             }}
           >
             <Typography
@@ -46,55 +78,116 @@ function Signup() {
               by Yasir Ali, offering both one-to-one and Group chat experiences.
             </Typography>
           </Paper>
-        </Grid>
+        </Box>
 
-        <Grid item md={6}>
+        <Box
+          item="true"
+          md={6}
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Paper
-            sqaure
+            sqaure="true"
             sx={{
               p: 3,
               height: "100%",
+              background: "rgba(255, 182, 193, 0.2)", // Light pastel pink with transparency
+              backdropFilter: "blur(8px)",
             }}
           >
-            <Typography variant="h4" gutterBottom sx={{ fontWeight: "200" }}>
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{
+                fontWeight: "200",
+                textShadow: "1px 1px 4px rgba(0, 0, 0, 0.4)",
+                fontFamily: "Roboto, sans-serif",
+              }}
+            >
               Sign up
             </Typography>
 
             <TextField
               fullWidth
-              id="outlined-basic"
+              id="name"
               label="Enter your Name"
               variant="outlined"
               sx={{ mb: 3 }}
+              {...register("name", {
+                required: "This field is required",
+              })}
+              error={!!errors.name}
+              helperText={errors.name && errors.name.message}
             />
             <TextField
               fullWidth
-              id="outlined-basic"
+              id="email"
               label="Enter your Email"
               variant="outlined"
               sx={{ mb: 3 }}
+              {...register("email", {
+                required: {
+                  value: true,
+                  message: "Enter Valid Email",
+                },
+                pattern: {
+                  value:
+                    /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: "invalid Email format",
+                },
+              })}
+              error={!!errors.email}
+              helperText={errors.email && errors.email.message}
             />
             <TextField
               fullWidth
-              id="outlined-basic"
+              id="username"
               label="Enter Username"
               variant="outlined"
               sx={{ mb: 3 }}
+              {...register("username", {
+                required: "This field is required",
+              })}
+              error={!!errors.username}
+              helperText={errors.username && errors.username.message}
             />
             <TextField
               fullWidth
-              id="outlined-basic"
+              id="password"
               type="password"
               label="Password"
               variant="outlined"
               sx={{ mb: 3 }}
+              {...register("password", {
+                required: "This field is required",
+              })}
+              error={!!errors.password}
+              helperText={errors.password && errors.password.message}
             />
 
-            <Button fullWidth variant="contained">
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mb: 2,
+  
+                fontFamily: "Roboto, sans-serif",
+                color: "#FFFFFF",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                backdropFilter: "blur(8px)",
+                textShadow: "1px 1px 4px rgba(0, 0, 0, 0.4)",
+                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                background:
+                  "linear-gradient(135deg, #FF5E5E, #FF88BB, #FFE29A, #A78BFA)",
+              }}
+            >
               Sign up
             </Button>
+            {formError && <Alert severity="error">{formError.error}</Alert>}
             <Box
-              sx={{ display: "flex", justifyContent: "space-evenly", mt: 2 }}
+              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
             >
               <Typography
                 sx={{
@@ -102,6 +195,8 @@ function Signup() {
                   textDecoration: "none",
                   color: "primary.main",
                   cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  mr: 2,
                 }}
                 variant="body2"
                 component={Link}
@@ -115,6 +210,7 @@ function Signup() {
                   textDecoration: "none",
                   color: "primary.main",
                   cursor: "pointer",
+                  whiteSpace: "nowrap",
                 }}
                 variant="body2"
                 component={Link}
@@ -124,8 +220,8 @@ function Signup() {
               </Typography>
             </Box>
           </Paper>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Container>
   );
 }

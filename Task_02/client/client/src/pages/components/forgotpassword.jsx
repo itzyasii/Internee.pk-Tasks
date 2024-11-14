@@ -1,35 +1,46 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
   Container,
-  Grid,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
+function Forgotpassword() {
+  const token = sessionStorage.getItem("token");
+  const navigate = useNavigate();
 
-function forgotpassword() {
+  useEffect(() => {
+    if (token) navigate("/");
+  });
+
   return (
     <Container
       maxWidth="md"
       sx={{ display: "flex", alignItems: "center", height: "100vh" }}
     >
-      <Grid container>
-        <Grid item md={6}>
+      <Box container="true" sx={{ display: "flex", width: "100%" }}>
+        <Box item="true" md={6}>
           <Paper
-            sqaure
+            sqaure="true"
             sx={{
-              bgcolor: "primary.main",
-              color: "primary.contrastText",
-              p: 3,
+              width: "100%",
+              background:
+                "linear-gradient(135deg, #FF5E5E, #FF88BB, #FFE29A, #A78BFA)",
+              p: 1,
               height: "100%",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              fontFamily: "Roboto, sans-serif",
+              fontWeight: 600,
+              color: "#FFFFFF",
+              fontSize: "1.5rem",
+              textShadow: "1px 1px 4px rgba(0, 0, 0, 0.4)",
             }}
           >
             <Typography
@@ -47,34 +58,63 @@ function forgotpassword() {
               by Yasir Ali, offering both one-to-one and Group chat experiences.
             </Typography>
           </Paper>
-        </Grid>
+        </Box>
 
-        <Grid item md={6}>
+        <Box item="true" md={6} sx={{ display: "flex", mr: 2 }}>
           <Paper
-            sqaure
+            sqaure="true"
             sx={{
-              p: 3,
+              width: "100%",
+              p: 2,
               height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              background: "rgba(255, 182, 193, 0.2)", // Light pastel pink with transparency
+              backdropFilter: "blur(8px)",
             }}
           >
-            <Typography variant="h4" gutterBottom sx={{ fontWeight: "200" }}>
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{
+                fontWeight: "200",
+                whiteSpace: "nowrap",
+                textShadow: "1px 1px 4px rgba(0, 0, 0, 0.4)",
+                fontFamily: "Roboto, sans-serif",
+              }}
+            >
               Forgot Password?
             </Typography>
 
             <TextField
               fullWidth
-              id="outlined-basic"
+              id="email"
               label="Enter your Email"
               variant="outlined"
               sx={{ mb: 3 }}
             />
 
-
-            <Button fullWidth variant="contained" sx={{}}>
-             Submit
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mb: 2,
+                fontFamily: "Roboto, sans-serif",
+                color: "#FFFFFF",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                backdropFilter: "blur(8px)",
+                textShadow: "1px 1px 4px rgba(0, 0, 0, 0.4)",
+                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                background:
+                  "linear-gradient(135deg, #FF5E5E, #FF88BB, #FFE29A, #A78BFA)",
+              }}
+            >
+              Submit
             </Button>
             <Box
-              sx={{ display: "flex", justifyContent: "space-evenly", mt: 2 }}
+              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
             >
               <Typography
                 sx={{
@@ -82,6 +122,8 @@ function forgotpassword() {
                   textDecoration: "none",
                   color: "primary.main",
                   cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  mr: 2,
                 }}
                 variant="body2"
                 component={Link}
@@ -95,6 +137,7 @@ function forgotpassword() {
                   textDecoration: "none",
                   color: "primary.main",
                   cursor: "pointer",
+                  whiteSpace: "nowrap",
                 }}
                 variant="body2"
                 component={Link}
@@ -104,10 +147,10 @@ function forgotpassword() {
               </Typography>
             </Box>
           </Paper>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Container>
-  )
+  );
 }
 
-export default forgotpassword
+export default Forgotpassword;
