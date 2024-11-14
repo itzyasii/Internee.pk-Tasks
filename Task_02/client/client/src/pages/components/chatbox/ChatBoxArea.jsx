@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import {
   Avatar,
   Box,
@@ -17,23 +17,42 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ReplyIcon from "@mui/icons-material/Reply";
 
 function ChatBoxArea({ allMsgs, user, handleDelete }) {
-  const firstMessageDate = allMsgs?.length > 0 ? new Date(allMsgs[0].createdAt) : null;
+  const firstMessageDate =
+    allMsgs?.length > 0 ? new Date(allMsgs[0].createdAt) : null;
 
   return (
     <Box sx={{ flex: "1 0 0", overflowY: "auto", background: "#f9f9f9" }}>
       <Stack
         direction="row"
-        justifyContent={"center"}
+        justifyContent="center"
         sx={{
           py: 2,
           position: "sticky",
           top: 0,
           zIndex: 2,
-          background: "#f9f9f9",
+          backgroundColor: "rgba(255, 255, 255, 0.6)", 
+          backdropFilter: "blur(10px)", 
+          borderRadius: "8px", 
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", 
         }}
       >
-        <Chip label={firstMessageDate ? format(firstMessageDate, 'PPP') : 'No Messages'} />
+        <Chip
+          label={
+            firstMessageDate ? format(firstMessageDate, "PPP") : "No Messages"
+          }
+          sx={{
+            backgroundColor: "rgba(0, 0, 0, 0.7)", 
+            color: "white", 
+            fontWeight: "100",
+            px: 2,
+            py: 1,
+            borderRadius: "8px",
+            // textTransform: "uppercase",
+            letterSpacing: "0.03em",
+          }}
+        />
       </Stack>
+
       <List sx={{ p: 0, overflowY: "auto", flex: "1 0 0" }}>
         {allMsgs.map((item) => (
           <Fragment key={item?.sender?.userId}>
@@ -105,7 +124,7 @@ function ChatBoxArea({ allMsgs, user, handleDelete }) {
                     }}
                   >
                     <Typography variant="caption" fontWeight={"50"}>
-                    {format(new Date(item.createdAt), 'PPPp')}
+                      {format(new Date(item.createdAt), "PPPp")}
                     </Typography>
                     <Box>
                       <IconButton size="small">
