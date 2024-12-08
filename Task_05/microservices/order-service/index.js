@@ -1,17 +1,18 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const orderRoutes = require("./routes/orderRoutes");
 
+dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use("/api/orders", orderRoutes);
 
-app.get("/users", (req, res) => {
-  res.json([
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Doe" },
-  ]);
-});     
-const PORT = 5002 || process.env.PORT;
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("Order Service DB Connected"))
+  .catch((err) => console.error(err));
 
-app.listen(PORT, () => {
-  console.log(`The Server is running on PORT ${PORT}`);
-});
+const PORT = process.env.PORT || 5003;
+app.listen(PORT, () => console.log(`Order Service running on port ${PORT}`));
