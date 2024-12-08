@@ -28,6 +28,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(userRoutes);
+
+
 app.post("/api/auth", passport.authenticate("local"), (request, response) => {
   response.sendStatus(200);
 });
